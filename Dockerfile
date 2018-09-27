@@ -1,5 +1,5 @@
 FROM ubuntu:14.04.5
-MAINTAINER Telenium "github@telenium.ca"
+MAINTAINER Telenium "gitlab@telenium.ca"
 
 # Install python development packages, and pip
 RUN apt-get update -qy
@@ -21,3 +21,9 @@ RUN apt-get install -y postgresql-contrib-9.3 postgresql-9.3-postgis-2.1
 RUN sed -i -e 's/peer/trust/' /etc/postgresql/9.3/main/pg_hba.conf
 RUN sed -i -e 's/md5/trust/' /etc/postgresql/9.3/main/pg_hba.conf
 RUN service postgresql stop
+
+# Install tox
+RUN pip install tox
+
+# Install ssh-agent
+RUN apt-get install -y openssh-client

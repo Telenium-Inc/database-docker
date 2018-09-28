@@ -17,10 +17,14 @@ RUN apt-get install -y postgresql-9.3 postgresql-server-dev-9.3
 # Install PostGIS 2.1
 RUN apt-get install -y postgresql-contrib-9.3 postgresql-9.3-postgis-2.1
 
+# Recreate the DB cluster using UTF-8
+RUN service postgresql stop
+RUN pg_dropcluster --stop 9.3 main
+RUN pg_createcluster --start -e UTF-8 9.3 main
+
 # Setup PostgreSQL pg_hba.conf
 RUN sed -i -e 's/peer/trust/' /etc/postgresql/9.3/main/pg_hba.conf
 RUN sed -i -e 's/md5/trust/' /etc/postgresql/9.3/main/pg_hba.conf
-RUN service postgresql stop
 
 # Install tox
 RUN pip install tox
